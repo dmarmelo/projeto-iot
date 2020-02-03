@@ -12,7 +12,7 @@ void Configuration::writeToFile(File &file) {
     file.write((uint8_t *)nodeId, sizeof(nodeId));
     file.write((uint8_t *)mqttIp, sizeof(mqttIp));
     file.write((uint8_t *)&mqttPort, sizeof(mqttPort));
-    file.write((uint8_t *)mqttUsername, sizeof(mqttUsername));
+    file.write((uint8_t *)mqttUser, sizeof(mqttUser));
     file.write((uint8_t *)mqttPassword, sizeof(mqttPassword));
     file.write((uint8_t *)mqttTopic, sizeof(mqttTopic));
     file.write((uint8_t *)wifiSSID, sizeof(wifiSSID));
@@ -25,7 +25,7 @@ void Configuration::readFromFile(File &file) {
     file.read((uint8_t *)nodeId, sizeof(nodeId));
     file.read((uint8_t *)mqttIp, sizeof(mqttIp));
     file.read((uint8_t *)&mqttPort, sizeof(mqttPort));
-    file.read((uint8_t *)mqttUsername, sizeof(mqttUsername));
+    file.read((uint8_t *)mqttUser, sizeof(mqttUser));
     file.read((uint8_t *)mqttPassword, sizeof(mqttPassword));
     file.read((uint8_t *)mqttTopic, sizeof(mqttTopic));
     file.read((uint8_t *)wifiSSID, sizeof(wifiSSID));
@@ -89,7 +89,7 @@ void Configuration::updateFromJson(JsonObject doc) {
     strlcpy(nodeId, n_name.c_str(), sizeof(nodeId));
     strlcpy(mqttIp, doc["mqttIp"] | "", sizeof(mqttIp));
     mqttPort = doc["mqttPort"] | 1883;
-    strlcpy(mqttUsername, doc["mqttUser"] | "", sizeof(mqttUser));
+    strlcpy(mqttUser, doc["mqttUser"] | "", sizeof(mqttUser));
     strlcpy(mqttPassword, doc["mqttPassword"] | "", sizeof(mqttPassword));
     strlcpy(mqttTopic, doc["mqttTopic"] | "", sizeof(mqttTopic));
     strlcpy(wifiSSID, doc["wifiSSID"] | "", sizeof(wifiSSID));
