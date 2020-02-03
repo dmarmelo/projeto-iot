@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Ro minify the files http://minifycode.com/html-minifier/
+# To minify the files http://minifycode.com/html-minifier/
 
 filename="$1"
 if [ -z "$filename" ]; then
