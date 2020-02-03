@@ -30,7 +30,7 @@ function fillConfig() {
    
     $('#mqtt-ip').val(config.mqttIp);
     $('#mqtt-port').val(config.mqttPort);
-    $('#mqtt-username').val(config.mqttUsername);
+    $('#mqtt-user').val(config.mqttUser);
     $('#mqtt-password').val(config.mqttPassword);
     $('#mqtt-topic').val(config.mqttTopic);
 }
@@ -64,7 +64,7 @@ function saveConfig() {
    
     config.mqttIp = $('#mqtt-ip').val().trim();
     config.mqttPort = $('#mqtt-port').val().trim();
-    config.mqttUsername = $('#mqtt-username').val().trim();
+    config.mqttUser = $('#mqtt-user').val().trim();
     config.mqttPassword = $('#mqtt-password').val().trim();
     config.mqttTopic = $('#mqtt-topic').val().trim();
 

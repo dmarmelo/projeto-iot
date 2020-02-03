@@ -20,7 +20,7 @@ public:
 
     char mqttIp[40];
     int mqttPort;
-    char mqttUsername[32];
+    char mqttUser[32];
     char mqttPassword[24];
     char mqttTopic[32];
 

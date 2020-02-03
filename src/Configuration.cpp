@@ -73,7 +73,7 @@ size_t Configuration::serializeToJson(Print &output) {
     doc["nodeId"] = nodeId;
     doc["mqttIp"] = mqttIp;
     doc["mqttPort"] = mqttPort;
-    doc["mqttUsername"] = mqttUsername;
+    doc["mqttUser"] = mqttUser;
     doc["mqttPassword"] = mqttPassword;
     doc["mqttTopic"] = mqttTopic;
     doc["wifiSSID"] = wifiSSID;
@@ -89,7 +89,7 @@ void Configuration::updateFromJson(JsonObject doc) {
     strlcpy(nodeId, n_name.c_str(), sizeof(nodeId));
     strlcpy(mqttIp, doc["mqttIp"] | "", sizeof(mqttIp));
     mqttPort = doc["mqttPort"] | 1883;
-    strlcpy(mqttUsername, doc["mqttUsername"] | "", sizeof(mqttUsername));
+    strlcpy(mqttUsername, doc["mqttUser"] | "", sizeof(mqttUser));
     strlcpy(mqttPassword, doc["mqttPassword"] | "", sizeof(mqttPassword));
     strlcpy(mqttTopic, doc["mqttTopic"] | "", sizeof(mqttTopic));
     strlcpy(wifiSSID, doc["wifiSSID"] | "", sizeof(wifiSSID));
