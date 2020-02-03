@@ -67,11 +67,12 @@ void Configuration::save() {
     Serial.println("Config stored.");
 }
 
-size_t Configuration::toJson(Print &output) {
+size_t Configuration::serializeToJson(Print &output) {
     const size_t CAPACITY = JSON_OBJECT_SIZE(10) + sizeof(Configuration);
     StaticJsonDocument<CAPACITY> doc;
     doc["nodeId"] = nodeId;
     doc["mqttIp"] = mqttIp;
+    doc["mqttPort"] = mqttPort;
     doc["mqttUsername"] = mqttUsername;
     doc["mqttPassword"] = mqttPassword;
     doc["mqttTopic"] = mqttTopic;
@@ -99,3 +100,5 @@ void Configuration::updateFromJson(JsonObject doc) {
     // TODO reload services
     
 }
+
+Configuration config;

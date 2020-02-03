@@ -32,7 +32,7 @@ public:
 
     void load();
     void save();
-    size_t toJson(Print &output);
+    size_t serializeToJson(Print &output);
     void updateFromJson(JsonObject doc);
 
 };
