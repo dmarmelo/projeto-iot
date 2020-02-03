@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projeto-IoT</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">IoT Project</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title">Configurations</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Node</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="nodeId">Node Id:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="nodeId" placeholder="Node Id">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="building">Building:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="building"
+                                                placeholder="Building">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="room">Room:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="room" placeholder="Room">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">WiFi</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="wifi-ssid">SSID:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="wifi-ssid" placeholder="SSID">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="wifi-password">Password:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="wifi-password"
+                                                placeholder="Password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">MQTT</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="mqtt-ip">IP:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="mqtt-ip" placeholder="IP">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="mqtt-port">Port:</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control" id="mqtt-port" placeholder="Port">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="mqtt-user">User:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="mqtt-user" placeholder="User">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="mqtt-password">Password:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="mqtt-password"
+                                                placeholder="Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="mqtt-topic">Topic:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="mqtt-topic" placeholder="Topic">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-center">
+                <button class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
