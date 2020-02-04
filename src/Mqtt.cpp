@@ -11,7 +11,7 @@ boolean reconnect() {
     if (WiFi.status() != WL_CONNECTED || strlen(config.mqttIp) == 0)
         return false;
 
-    mqttClient.connect(config.mqttIp, config.mqttUser, config.mqttPassword);
+    mqttClient.connect(String(ESP.getChipId()).c_str(), config.mqttUser, config.mqttPassword);
 
     return MQTTConnected();
 }
