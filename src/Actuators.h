@@ -1,7 +1,7 @@
 #ifndef ACTUATORS_H
 #define ACTUATORS_H
 
-class Actuators{
+class Actuators {
 private:
     
 public:

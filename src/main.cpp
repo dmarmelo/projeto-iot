@@ -1,29 +1,31 @@
 #include <Arduino.h>
 #include "Configuration.h"
-//#include "WiFiManagerConfig.h"
 #include "JustWifiConfig.h"
 #include "WebServer.h"
 #include "Mqtt.h"
+#include "Sensors.h"
 
 void setup() {
     Serial.begin(115200);
-    Serial.println("Heeloo");
-
-    //setupWiFiManager(&server, &dns);
+    
     config.load();
     setupJustWifi();
     setupWebserverAsync();
     setupMQTT();
-
-    pinMode(A0, INPUT);
+    
+    sensors.setup();
 }
 
 void loop() {
-    //loopWiFiManager();
+    if (config.updated()) {
+        // Update Services
+        refreshMDNS(config.lastNodeId);
+        reloadWiFiConfig();
+        setupMQTT();
+    }
+
     loopJustWifi();
-    loopMqtt();
+    loopMQTT();
 
-
-    // Small delay to give some breath
-    delay(10);
+    sensors.loop();
 }

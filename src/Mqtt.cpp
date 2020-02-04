@@ -3,13 +3,17 @@
 static WiFiClient espClient;
 static PubSubClient mqttClient(espClient);
 
+bool MQTTConnected() {
+    return mqttClient.connected();
+}
+
 boolean reconnect() {
-    if (WiFi.status() != WL_CONNECTED)
+    if (WiFi.status() != WL_CONNECTED || strlen(config.mqttIp) == 0)
         return false;
 
-    mqttClient.connect(String(ESP.getChipId()).c_str(), "", "");
+    mqttClient.connect(config.mqttIp, config.mqttUser, config.mqttPassword);
 
-    return mqttConnected();
+    return MQTTConnected();
 }
 
 void callbackMqtt(char *topic, byte *payload, unsigned int length) {
@@ -28,19 +32,19 @@ void callbackMqtt(char *topic, byte *payload, unsigned int length) {
 }
 
 void setupMQTT() {
-    if (mqttConnected()) {
+    if (MQTTConnected()) {
         mqttClient.disconnect();
     }
-    mqttClient.setServer("bifrost.local", 1883);
+    mqttClient.setServer(config.mqttIp, config.mqttPort);
     mqttClient.setCallback(callbackMqtt);
 }
 
-void loopMqtt() {
-    if (WiFi.status() != WL_CONNECTED)
+void loopMQTT() {
+    if (WiFi.status() != WL_CONNECTED || strlen(config.mqttIp) == 0)
         return;
 
     static unsigned long lastReconnectAttempt = millis();
-    if (!mqttConnected()) {
+    if (!MQTTConnected()) {
         long now = millis();
         if (now - lastReconnectAttempt > 8000) {
             Serial.print("Attempting MQTT connection...");
@@ -51,14 +55,13 @@ void loopMqtt() {
             }
         }
     }
-    else
-    {
+    else {
         mqttClient.loop();
     }
 }
 
 void publishOnMqtt(const char *topic, const char *payload, bool retain) {
-    if (!mqttConnected()) {
+    if (!MQTTConnected()) {
         return;
     }
 
@@ -69,19 +72,14 @@ void publishOnMqtt(const char *topic, const char *payload, bool retain) {
     retries = 0;
 }
 
-bool mqttConnected() {
-    return mqttClient.connected();
-}
-
 void subscribeOnMqtt(const char *topic) {
-    if (!mqttConnected()) {
-        return;
+    if (MQTTConnected()) {
+        mqttClient.subscribe(topic);
     }
-    mqttClient.subscribe(topic);
 }
 
 void unsubscribeOnMqtt(const char *topic) {
-    if (mqttConnected()) {
+    if (MQTTConnected()) {
         mqttClient.unsubscribe(topic);
     }
 }

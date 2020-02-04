@@ -7,6 +7,7 @@
 #include <ESP8266mDNS.h>
 #include <DNSServer.h>
 #include <ArduinoJson.h>
+#include "Configuration.h"
 
 extern unsigned long connectedOn;
 extern DNSServer dnsServer;

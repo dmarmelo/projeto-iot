@@ -3,21 +3,21 @@
 unsigned long connectedOn = 0ul;
 
 String getApName() {
-  return "DmEsIoT-" + String(ESP.getChipId());
+  return "ProjIoT-" + String(config.nodeId);
 }
 
 void setupJustWifi() {
     // Set WIFI hostname (otherwise it would be ESP-XXXXXX)
-    // TODO ir buscar às configurações
-    jw.setHostname("justwifi");
+    jw.setHostname(config.nodeId);
 
     // Callbacks
-    jw.subscribe(infoCallback);
-    jw.subscribe(mdnsCallback);
-    jw.subscribe(captivePortalCallback);
+    if (connectedOn == 0ul) {
+        jw.subscribe(infoCallback);
+        jw.subscribe(mdnsCallback);
+        jw.subscribe(captivePortalCallback);
+    }
 
     // AP mode only as fallback
-    // TODO ir buscar às configurações
     jw.setSoftAP(getApName().c_str());
     jw.enableAP(false);
     jw.enableAPFallback(true);
@@ -25,11 +25,11 @@ void setupJustWifi() {
     // Enable STA mode (connecting to a router)
     jw.enableSTA(true);
 
-    jw.addNetwork("Pidgeon", "pombopombo");
+    // Clean and add network from configuration
+    jw.cleanNetworks();
+    jw.addNetwork(config.wifiSSID, config.wifiPassword);
 
     Serial.println("[WIFI] Connecting Wifi...");
-
-    reloadWiFiConfig();
 }
 
 void loopJustWifi() {
@@ -43,7 +43,8 @@ void loopJustWifi() {
 }
 
 void reloadWiFiConfig() {
-
+    jw.disconnect();
+    setupJustWifi();
 }
 
 // -----------------------------------------------------------------------------
@@ -51,7 +52,8 @@ void reloadWiFiConfig() {
 // -----------------------------------------------------------------------------
 void mdnsCallback(justwifi_messages_t code, char *parameter) {
     if (code == MESSAGE_CONNECTED) {
-        refreshMDNS(getApName().c_str());
+        connectedOn = millis();
+        refreshMDNS(config.nodeId);
     }
 }
 
@@ -76,33 +78,14 @@ void captivePortalCallback(justwifi_messages_t code, char *parameter) {
 }
 
 void refreshMDNS(const char* lastName) {
-    MDNS.removeService(lastName, "DmEsIoT", "tcp");
+    MDNS.removeService(lastName, "ProjIoT", "tcp");
     MDNS.close();
     String hostname = String(WiFi.hostname());
     if (MDNS.begin(hostname, INADDR_ANY, 10)) {
         MDNS.addService("http", "tcp", 80);
-        MDNS.addServiceTxt("DmEsIoT", "tcp", "hardwareId", String(ESP.getChipId()).c_str());
+        MDNS.addServiceTxt("ProjIoT", "tcp", "hardwareId", String(ESP.getChipId()).c_str());
     }
     else {
         Serial.printf("MDNS Error");
     }
-}
-
-size_t systemJSONStatus(Print &output) {
-    const size_t CAPACITY = JSON_OBJECT_SIZE(13) + 400;
-    StaticJsonDocument<CAPACITY> doc;
-    JsonObject object = doc.to<JsonObject>();
-    object["wifiIp"] = WiFi.localIP().toString();
-    object["wifiAPSSID"] = jw.getAPSSID();
-    object["wifiSSID"] = WiFi.SSID();
-    object["status"] = jw.connected();
-    object["signal"] = WiFi.RSSI();
-    object["wifiMask"] = WiFi.subnetMask().toString();
-    object["wifiGw"] = WiFi.gatewayIP().toString();
-    object["mac"] = WiFi.softAPmacAddress();
-    object["channel"] = WiFi.channel();
-    object["mode"] = (int)WiFi.getMode();
-    //object["mqttConnected"] = mqttConnected();
-    object["freeHeap"] = String(ESP.getFreeHeap());
-    return serializeJson(doc, output);
 }

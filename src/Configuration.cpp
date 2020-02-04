@@ -64,6 +64,7 @@ void Configuration::save() {
     file.close();
     SPIFFS.end();
     
+    _updated = true;
     Serial.println("Config stored.");
 }
 
@@ -85,6 +86,7 @@ size_t Configuration::serializeToJson(Print &output) {
 }
 
 void Configuration::updateFromJson(JsonObject doc) {
+    strlcpy(lastNodeId, nodeId, sizeof(nodeId));
     String n_name = doc["nodeId"] | String(ESP.getChipId());
     strlcpy(nodeId, n_name.c_str(), sizeof(nodeId));
     strlcpy(mqttIp, doc["mqttIp"] | "", sizeof(mqttIp));
@@ -96,9 +98,14 @@ void Configuration::updateFromJson(JsonObject doc) {
     strlcpy(wifiPassword, doc["wifiPassword"] | "", sizeof(wifiPassword));
     strlcpy(building, doc["building"] | "", sizeof(building));
     strlcpy(room, doc["room"] | "", sizeof(room));
+}
 
-    // TODO reload services
-    
+bool Configuration::updated() {
+    if (_updated) {
+        _updated = false;
+        return true;
+    }
+    return false;
 }
 
 Configuration config;

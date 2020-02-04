@@ -9,6 +9,8 @@
 
 class Configuration {
 private:
+    bool _updated = false;
+
     void writeToFile(File &file);
     void readFromFile(File &file);
     
@@ -17,6 +19,7 @@ public:
     ~Configuration();
 
     char nodeId[32];
+    char lastNodeId[32];
 
     char mqttIp[40];
     int mqttPort;
@@ -34,6 +37,8 @@ public:
     void save();
     size_t serializeToJson(Print &output);
     void updateFromJson(JsonObject doc);
+
+    bool updated();
 
 };
 
